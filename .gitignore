@@ -1,1 +1,5 @@
 datasets/
+provenv/
+augmented_dataset.csv
+requirements.txt
+generated_dataset.csv
