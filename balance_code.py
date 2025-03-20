@@ -24,7 +24,7 @@ print("Original class distribution:\n", df['label'].value_counts())
 
 # Define correct class distribution for undersampling (matching numeric labels)
 target_count = {
-    1: 1200,  # benign
+    1: 900,  # benign
     4: 84,   # smsmalware
     3: 84,   # scareware
     2: 84,   # ransomware
@@ -39,20 +39,20 @@ X_resampled, y_resampled = rus.fit_resample(df.drop(columns=['label']), df['labe
 # Apply Borderline-SMOTE (boost minority classes)
 # Apply Borderline-SMOTE with correct numeric labels
 smote = BorderlineSMOTE(sampling_strategy={
-    3: 300,  # scareware
-    4: 300,  # smsmalware
-    2: 300,  # ransomware
-    0: 300   # adware
+    3: 150,  # scareware
+    4: 150,  # smsmalware
+    2: 150,  # ransomware
+    0: 150   # adware
 }, random_state=42)
 
 X_smote, y_smote = smote.fit_resample(X_resampled, y_resampled)
 
 # Apply ADASYN for further balancing
 adasyn = ADASYN(sampling_strategy={
-    3: max(300, y_smote.value_counts()[3]),  
-    4: max(300, y_smote.value_counts()[4]),  
-    2: max(300, y_smote.value_counts()[2]),  
-    0: max(300, y_smote.value_counts()[0])   
+    3: max(150, y_smote.value_counts()[3]),  
+    4: max(150, y_smote.value_counts()[4]),  
+    2: max(150, y_smote.value_counts()[2]),  
+    0: max(150, y_smote.value_counts()[0])   
 }, random_state=42)
 
 X_balanced, y_balanced = adasyn.fit_resample(X_smote, y_smote)
